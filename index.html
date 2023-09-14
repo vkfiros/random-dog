@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Dog Video</title>
+</head>
+<body>
+    <h1>Your friend found your best video on the internet</h1>
+    <div id="dogVideoContainer">
+        <video id="dogVideo" controls autoplay></video>
+    </div>
+    <button id="refreshButton">Refresh</button>
+    <button id="shareButton">Share with your friend</button>
+
+    <script>
+        // Function to fetch a random dog video
+        function fetchRandomDogVideo() {
+            fetch("https://random.dog/woof.json")
+                .then(response => response.json())
+                .then(data => {
+                    const videoElement = document.getElementById("dogVideo");
+                    videoElement.src = data.url;
+                })
+                .catch(error => console.error("Error fetching dog video:", error));
+        }
+
+        // Initial fetch
+        fetchRandomDogVideo();
+
+        // Refresh button click event
+        const refreshButton = document.getElementById("refreshButton");
+        refreshButton.addEventListener("click", fetchRandomDogVideo);
+
+        // Share button click event
+        const shareButton = document.getElementById("shareButton");
+        shareButton.addEventListener("click", () => {
+            const videoElement = document.getElementById("dogVideo");
+            const videoUrl = videoElement.src;
+            const shareTitle = "I have found your best video on the internet";
+            const whatsappShareUrl = `whatsapp://send?text=${encodeURIComponent(shareTitle)}%0A${encodeURIComponent(videoUrl)}`;
+            window.location.href = whatsappShareUrl;
+        });
+    </script>
+</body>
+</html>
