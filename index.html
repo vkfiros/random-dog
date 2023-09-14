@@ -4,10 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Dog Content</title>
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@400;500;600;700&family=Ubuntu+Condensed&display=swap');
+
+
+
+
+#contentContainer{
+    max-width: 400px;
+    margin: auto;
+    overflow: hidden;
+}
+#contentContainer img{
+    width: 100%;
+
+}
+#contentContainer video{
+    width: 100%;
+}
+body{
+    text-align: center;
+}
+p{
+    font-family: 'Signika Negative', sans-serif;
+    font-size: 16px;
+}
+h1{
+    font-family: 'Signika Negative', sans-serif;
+    max-width: 400px;
+    margin: auto;
+    padding: 30px 0px;
+    color: #009483;
+    
+}
+#refreshButton{
+    background: red;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+#shareButton{
+     background: green;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+    </style>
 </head>
 <body>
-    <h1>Your friend found your best content on the internet</h1>
+    <h1>Your friend found your best photo on the internet</h1>
     <div id="contentContainer"></div>
+
+    <p>Remember, it's okay to be a little silly and enjoy the ride 🎉😄</p>
     <button id="refreshButton">Refresh</button>
     <button id="shareButton">Share with your friend</button>
 
@@ -60,7 +122,7 @@
             const contentContainer = document.getElementById("contentContainer");
             const contentElement = contentContainer.firstChild;
             const contentUrl = contentElement.src;
-            const shareTitle = "I have found your best content on the internet";
+            const shareTitle = "I have found your best photo on the internet";
             const whatsappShareUrl = `whatsapp://send?text=${encodeURIComponent(shareTitle)}%0A${encodeURIComponent(contentUrl)}`;
             window.location.href = whatsappShareUrl;
         });
