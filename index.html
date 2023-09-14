@@ -3,42 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Dog Video</title>
+    <title>Random Dog Content</title>
 </head>
 <body>
-    <h1>Your friend found your best video on the internet</h1>
-    <div id="dogVideoContainer">
-        <video id="dogVideo" controls autoplay></video>
-    </div>
+    <h1>Your friend found your best content on the internet</h1>
+    <div id="contentContainer"></div>
     <button id="refreshButton">Refresh</button>
     <button id="shareButton">Share with your friend</button>
 
     <script>
-        // Function to fetch a random dog video
-        function fetchRandomDogVideo() {
+        // Function to fetch random content (image/GIF or video)
+        function fetchRandomContent() {
             fetch("https://random.dog/woof.json")
                 .then(response => response.json())
                 .then(data => {
-                    const videoElement = document.getElementById("dogVideo");
-                    videoElement.src = data.url;
+                    const contentContainer = document.getElementById("contentContainer");
+                    contentContainer.innerHTML = ''; // Clear previous content
+                    const contentUrl = data.url;
+                    const contentElement = getContentElement(contentUrl);
+                    contentContainer.appendChild(contentElement);
                 })
-                .catch(error => console.error("Error fetching dog video:", error));
+                .catch(error => console.error("Error fetching content:", error));
+        }
+
+        // Function to create the appropriate content element (img or video)
+        function getContentElement(contentUrl) {
+            const fileExtension = contentUrl.split('.').pop().toLowerCase();
+            if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                const imgElement = document.createElement("img");
+                imgElement.src = contentUrl;
+                imgElement.alt = "Random Content";
+                return imgElement;
+            } else if (['mp4', 'webm'].includes(fileExtension)) {
+                const videoElement = document.createElement("video");
+                videoElement.src = contentUrl;
+                videoElement.controls = true;
+                videoElement.autoplay = true;
+                return videoElement;
+            } else {
+                const errorElement = document.createElement("p");
+                errorElement.textContent = "Unsupported content type.";
+                return errorElement;
+            }
         }
 
         // Initial fetch
-        fetchRandomDogVideo();
+        fetchRandomContent();
 
         // Refresh button click event
         const refreshButton = document.getElementById("refreshButton");
-        refreshButton.addEventListener("click", fetchRandomDogVideo);
+        refreshButton.addEventListener("click", fetchRandomContent);
 
         // Share button click event
         const shareButton = document.getElementById("shareButton");
         shareButton.addEventListener("click", () => {
-            const videoElement = document.getElementById("dogVideo");
-            const videoUrl = videoElement.src;
-            const shareTitle = "I have found your best video on the internet";
-            const whatsappShareUrl = `whatsapp://send?text=${encodeURIComponent(shareTitle)}%0A${encodeURIComponent(videoUrl)}`;
+            const contentContainer = document.getElementById("contentContainer");
+            const contentElement = contentContainer.firstChild;
+            const contentUrl = contentElement.src;
+            const shareTitle = "I have found your best content on the internet";
+            const whatsappShareUrl = `whatsapp://send?text=${encodeURIComponent(shareTitle)}%0A${encodeURIComponent(contentUrl)}`;
             window.location.href = whatsappShareUrl;
         });
     </script>
